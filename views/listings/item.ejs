@@ -7,53 +7,60 @@
     <link rel="stylesheet" href="/css/listings/item.css" />
   </head>
   <body>
-    <div class="item-card">
-      <!-- Title -->
-      <div class="item-header">
-        <h1 class="item-title"><%= item.title %></h1>
-
-        <div class="item-actions">
-          <a
-            class="edit-btn"
-            href="http://localhost:8080/listings/edit/<%= item._id %>"
-            >Edit</a
-          >
-
-          <form
-            class="delete"
-            action="http://localhost:8080/listings/delete/<%= item._id %>?_method=DELETE"
-            method="POST"
-          >
-            <button class="delete-btn">Delete</button>
-          </form>
-        </div>
+    <!-- Header stays full width -->
+    <header class="header">
+      <div class="logo">
+        <img src="/images/logo.png" alt="homeAway logo" />
+        <a href="http://localhost:8080/listings">homeAway</a>
       </div>
 
-      <!-- Image -->
-      <img
-        class="item-image"
-        src="<%= item.image.url %>"
-        alt="<%= item.title %> image"
-      />
+      <nav class="nav">
+        <a href="http://localhost:8080/listings/new">Become a host</a>
+        <!-- Future links -->
+      </nav>
+    </header>
 
-      <!-- Price -->
-      <span class="item-price">
-        &#8377; <%= item.price.toLocaleString("en-IN") %>
-      </span>
+    <!-- Page content container -->
+    <div class="page-content">
+      <div class="item-card">
+        <!-- Item card content -->
+        <div class="item-header">
+          <h1 class="item-title"><%= item.title %></h1>
+          <div class="item-actions">
+            <a
+              class="edit-btn"
+              href="http://localhost:8080/listings/edit/<%= item._id %>"
+              >Edit</a
+            >
+            <form
+              class="delete"
+              action="http://localhost:8080/listings/delete/<%= item._id %>?_method=DELETE"
+              method="POST"
+            >
+              <button class="delete-btn">Delete</button>
+            </form>
+          </div>
+        </div>
 
-      <!-- Location -->
-      <span class="item-location">
-        <%= item.location %>, <%= item.country %>
-      </span>
-
-      <!-- Description -->
-      <p class="item-desc"><%= item.description %></p>
+        <img
+          class="item-image"
+          src="<%= item.image.url %>"
+          alt="<%= item.title %> image"
+        />
+        <span class="item-price"
+          >&#8377; <%= item.price.toLocaleString("en-IN") %></span
+        >
+        <span class="item-location"
+          ><%= item.location %>, <%= item.country %></span
+        >
+        <p class="item-desc"><%= item.description %></p>
+      </div>
     </div>
     <script>
-      const deleteBtn = document.querySelector(".delete-btn");
+      const deleteBtn = document.querySelector(".delete");
       deleteBtn.addEventListener("click", (e) => {
         const confirmDelete = confirm(
-          "Do you really want to delete this item?"
+          "Do you really want to delete this listing."
         );
         if (!confirmDelete) {
           e.preventDefault();
