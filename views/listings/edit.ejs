@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/listings/new.css" />
+  </head>
+  <body>
+    <div class="form-container">
+      <h1>Add your place to homeAway</h1>
+      <h2>Edit your details.</h2>
+
+      <form
+        action="http://localhost:8080/listings/edit/<%= item._id %>?_method=PATCH"
+        method="POST"
+      >
+        <!-- Title -->
+        <label for="title">Title</label>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          placeholder="Title"
+          value="<%= item.title %>"
+        />
+
+        <!-- Description -->
+        <label for="description">Description</label>
+        <textarea name="description" id="description" placeholder="Description">
+<%= item.description %></textarea
+        >
+
+        <!-- Image fields in a row -->
+        <div class="form-row">
+          <div>
+            <label for="filename">Image Filename</label>
+            <input
+              type="text"
+              name="filename"
+              id="filename"
+              value="<%= item.image.filename %>"
+            />
+          </div>
+          <div>
+            <label for="url">Image URL</label>
+            <input
+              type="text"
+              name="url"
+              id="url"
+              value="<%= item.image.url %>"
+            />
+          </div>
+        </div>
+
+        <!-- Price -->
+        <label for="price">Price (₹)</label>
+        <input
+          type="text"
+          name="price"
+          id="price"
+          placeholder="Price"
+          value="<%= item.price %>"
+        />
+
+        <!-- Location + Country in a row -->
+        <div class="form-row">
+          <div>
+            <label for="location">Location</label>
+            <input
+              type="text"
+              name="location"
+              id="location"
+              value="<%= item.location %>"
+            />
+          </div>
+          <div>
+            <label for="country">Country</label>
+            <input
+              type="text"
+              name="country"
+              id="country"
+              value="<%= item.country %>"
+            />
+          </div>
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>

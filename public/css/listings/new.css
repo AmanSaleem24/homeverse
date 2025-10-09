@@ -1,0 +1,128 @@
+/* ---------- Global Reset ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- Body ---------- */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* ---------- Form Container ---------- */
+.form-container {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 700px;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-container:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* ---------- Headings ---------- */
+.form-container h1 {
+  font-size: 2rem;
+  color: #ff385c; /* Airbnb pink */
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.form-container h2 {
+  font-size: 1.1rem;
+  text-align: center;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+/* ---------- Form Layout ---------- */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* ---------- Labels ---------- */
+label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  display: block;
+  color: #444;
+}
+
+/* ---------- Inputs & Textareas ---------- */
+input,
+textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1.5px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: #fafafa;
+  transition: border 0.2s ease, background-color 0.2s ease;
+}
+textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #ff385c;
+  background-color: #fff;
+  outline: none;
+}
+
+/* ---------- Form Rows (Side-by-side Inputs) ---------- */
+.form-row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.form-row div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Button ---------- */
+button {
+  padding: 0.9rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  background-color: #ff385c;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease-in;
+}
+
+button:hover {
+  background-color: #e03150;
+  transform: scale(1.03);
+}
+
+/* ---------- Responsive Design ---------- */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-container {
+    padding: 1.5rem;
+  }
+}
