@@ -3,10 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Edit Listing</title>
     <link rel="stylesheet" href="/css/listings/new.css" />
   </head>
   <body>
+    <!-- DEBUG: remove after checking -->
+
     <!-- Sticky Header -->
     <header class="header">
       <div class="logo">
@@ -24,72 +26,136 @@
       <h2>Update the details below.</h2>
 
       <form
-        action="http://localhost:8080/listings/edit/<%= item._id %>?_method=PATCH"
+        id="edit-form"
+        action="http://localhost:8080/listings/<%= item._id %>/edit?_method=PATCH"
         method="POST"
+        novalidate
       >
-        <label for="title">Title</label>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          placeholder="Title"
-          value="<%= item.title %>"
-        />
+        <!-- Title -->
+        <div class="field">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            placeholder="Title"
+            value="<%= item.title %>"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Title is required.</div>
+        </div>
 
-        <label for="description">Description</label>
-        <textarea name="description" id="description" placeholder="Description">
+        <!-- Description -->
+        <div class="field">
+          <label for="description">Description</label>
+          <textarea
+            name="description"
+            id="description"
+            placeholder="Description"
+            required
+          >
 <%= item.description %></textarea
-        >
+          >
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Description is required.</div>
+        </div>
 
         <!-- Image Fields Row -->
         <div class="form-row">
-          <div>
+          <div class="field">
             <label for="filename">Image Filename</label>
             <input
               type="text"
               name="filename"
               id="filename"
               value="<%= item.image.filename %>"
+              required
             />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Image filename is required.</div>
           </div>
-          <div>
+
+          <div class="field">
             <label for="url">Image URL</label>
             <input
               type="text"
               name="url"
               id="url"
               value="<%= item.image.url %>"
+              required
             />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Image URL is required.</div>
           </div>
         </div>
 
-        <label for="price">Price (₹)</label>
-        <input type="text" name="price" id="price" value="<%= item.price %>" />
+        <!-- Price -->
+        <div class="field">
+          <label for="price">Price (₹)</label>
+          <input
+            type="number"
+            name="price"
+            id="price"
+            placeholder="Price"
+            min="0"
+            step="1"
+            value="<%= item.price %>"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Please enter a valid price.</div>
+        </div>
 
         <!-- Location + Country Row -->
         <div class="form-row">
-          <div>
+          <div class="field">
             <label for="location">Location</label>
             <input
               type="text"
               name="location"
               id="location"
               value="<%= item.location %>"
+              required
             />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Location is required.</div>
           </div>
-          <div>
+
+          <div class="field">
             <label for="country">Country</label>
             <input
               type="text"
               name="country"
               id="country"
               value="<%= item.country %>"
+              required
             />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Country is required.</div>
           </div>
         </div>
 
-        <button type="submit">Update Listing</button>
+        <!-- Buttons -->
+        <div class="actions">
+          <button type="submit" id="collectDataBtn">Update Listing</button>
+          <button type="reset" class="secondary">Reset</button>
+        </div>
       </form>
     </div>
+    <!-- Minimal validation script -->
+    <script>
+      (function () {
+        "use strict";
+        const form = document.getElementById("edit-form");
+        form.addEventListener("submit", function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add("was-validated");
+        });
+      })();
+    </script>
   </body>
 </html>

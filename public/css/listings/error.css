@@ -1,0 +1,113 @@
+:root {
+  --primary-color: #ff5a5f;
+  --secondary-color: #222;
+  --bg-color: #f8f9fa;
+  --card-radius: 15px;
+  --header-height: 70px;
+}
+
+/* ---------- Global ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg-color);
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* ---------- Sticky Header ---------- */
+.header {
+  width: 100%;
+  height: var(--header-height);
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo img {
+  height: 40px;
+  width: auto;
+}
+
+.logo a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.logo a:hover {
+  color: #e04953;
+}
+
+.nav a {
+  font-size: 1rem;
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 25px;
+  background-color: #f5f5f5;
+  transition: all 0.2s ease;
+}
+
+.nav a:hover {
+  background-color: #eaeaea;
+}
+
+/* ---------- Error Message Container ---------- */
+.error {
+  margin-top: 6rem;
+  background: #fff;
+  padding: 3rem 2.5rem;
+  border-radius: var(--card-radius);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  max-width: 500px;
+}
+
+.error p {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.error::before {
+  content: "⚠️";
+  display: block;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 600px) {
+  .error {
+    margin: 4rem 1rem;
+    padding: 2rem 1.5rem;
+  }
+  .error p {
+    font-size: 1.1rem;
+  }
+}

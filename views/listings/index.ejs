@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HomeAway</title>
     <link rel="stylesheet" href="/css/listings/index.css" />
+    <!-- Poppins Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <!-- ---------- Header ---------- -->
@@ -39,7 +46,9 @@
               href="http://localhost:8080/listings/view/<%= item._id %>"
               ><%= item.title %> in <%= item.location %></a
             >
-            <span class="item-price"><%= item.price %> for 1 night stay</span>
+            <span class="item-price"
+              >&#8377; <%= item.price.toLocaleString() %> / night</span
+            >
           </div>
         </div>
         <% }) %>

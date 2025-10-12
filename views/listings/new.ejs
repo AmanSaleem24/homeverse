@@ -4,9 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>New Listing</title>
+
+    <!-- Your themed stylesheet (no Bootstrap CSS) -->
     <link rel="stylesheet" href="/css/listings/new.css" />
   </head>
   <body>
+    <!-- Sticky Header -->
     <header class="header">
       <div class="logo">
         <img src="/images/logo.png" alt="homeAway logo" />
@@ -16,53 +19,131 @@
         <a href="http://localhost:8080/listings/new">Become a host</a>
       </nav>
     </header>
+
+    <!-- Form Container -->
     <div class="form-container">
       <h1>Add your place to homeAway</h1>
       <h2>Fill in the details below to register yourself.</h2>
 
-      <form action="http://localhost:8080/listings/new" method="POST">
+      <form
+        id="listing-form"
+        action="http://localhost:8080/listings/new"
+        method="POST"
+        novalidate
+      >
         <!-- Title -->
-        <label for="title">Title</label>
-        <input type="text" name="title" id="title" placeholder="Title" />
+        <div class="field">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            placeholder="Cozy studio near city center"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Title is required.</div>
+        </div>
 
         <!-- Description -->
-        <label for="description">Description</label>
-        <textarea
-          name="description"
-          id="description"
-          placeholder="Description"
-        ></textarea>
+        <div class="field">
+          <label for="description">Description</label>
+          <textarea
+            name="description"
+            id="description"
+            placeholder="Describe your place, amenities, and nearby attractions…"
+            required
+          ></textarea>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Description is required.</div>
+        </div>
 
         <!-- Image fields in a row -->
         <div class="form-row">
-          <div>
+          <div class="field">
             <label for="filename">Image Filename</label>
-            <input type="text" name="filename" id="filename" />
+            <input
+              type="text"
+              name="filename"
+              id="filename"
+              placeholder="living-room.jpg"
+            />
           </div>
-          <div>
+          <div class="field">
             <label for="url">Image URL</label>
-            <input type="text" name="url" id="url" />
+            <input
+              type="url"
+              name="url"
+              id="url"
+              placeholder="https://example.com/living-room.jpg"
+            />
           </div>
         </div>
 
         <!-- Price -->
-        <label for="price">Price (₹)</label>
-        <input type="text" name="price" id="price" placeholder="Price" />
+        <div class="field">
+          <label for="price">Price (₹)</label>
+          <input
+            type="number"
+            name="price"
+            id="price"
+            placeholder="2500"
+            min="0"
+            step="1"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Please enter a valid price.</div>
+        </div>
 
         <!-- Location + Country in a row -->
         <div class="form-row">
-          <div>
+          <div class="field">
             <label for="location">Location</label>
-            <input type="text" name="location" id="location" />
+            <input
+              type="text"
+              name="location"
+              id="location"
+              placeholder="Indore"
+              required
+            />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Location is required.</div>
           </div>
-          <div>
+          <div class="field">
             <label for="country">Country</label>
-            <input type="text" name="country" id="country" />
+            <input
+              type="text"
+              name="country"
+              id="country"
+              placeholder="India"
+              required
+            />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Country is required.</div>
           </div>
         </div>
 
-        <button type="submit">Submit</button>
+        <div class="actions">
+          <button type="submit" id="collectDataBtn">Submit</button>
+          <button type="reset" class="secondary">Reset</button>
+        </div>
       </form>
     </div>
+
+    <!-- Minimal validation script (no Bootstrap needed) -->
+    <script>
+      (function () {
+        "use strict";
+        const form = document.getElementById("listing-form");
+        form.addEventListener("submit", function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add("was-validated");
+        });
+      })();
+    </script>
   </body>
 </html>

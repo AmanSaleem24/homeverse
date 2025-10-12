@@ -38,6 +38,7 @@ const listingSchema = new mongoose.Schema({
   },
   country: {
     type: String,
+    enum: ["India", "USA", "Australia", "Canada"],
     required: true,
   },
 });

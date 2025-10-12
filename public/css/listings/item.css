@@ -173,6 +173,11 @@ form.delete {
   display: inline-block; /* ensures form doesn't break flex layout */
   margin: 0;
 }
+.item-image {
+  max-height: 30rem;
+  aspect-ratio: auto;
+  width: auto;
+}
 
 /* Responsive tweaks */
 @media (max-width: 768px) {
