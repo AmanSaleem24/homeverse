@@ -25,6 +25,11 @@ router.post(
       { $push: { reviews: review._id } },
       { new: true }
     ).populate("reviews");
+    if (listing) {
+      req.flash("success", "Review created successfully!");
+    } else {
+      req.flash("error", "Review not added!");
+    }
     res.redirect(`/listings/view/${listing._id}`);
   })
 );
@@ -33,10 +38,15 @@ router.delete(
   wrapAsync(async (req, res) => {
     const { id, reviewId } = req.params;
 
-    await Listing.findByIdAndUpdate(id, {
+    const del = await Listing.findByIdAndUpdate(id, {
       $pull: { reviews: reviewId },
     });
-    await Review.findByIdAndDelete(reviewId);
+    const del1 = await Review.findByIdAndDelete(reviewId);
+    if (del && del1) {
+      req.flash("success", "Review deleted successfully!");
+    } else {
+      req.flash("error", "Review not deleted!");
+    }
     res.redirect(`/listings/view/${id}`);
   })
 );

@@ -7,11 +7,23 @@ import ejsMate from "ejs-mate";
 import ExpressError from "./utils/ExpressError.js";
 import listingRoutes from "./routes/listings.js";
 import reviewRoutes from "./routes/reviews.js";
+import session from "express-session";
+import flash from "connect-flash";
 
 const PORT = 8080;
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const sessionOptions = {
+  secret: "kdsb03812@#)kjfh,!doyf)@8asjhfa,bc",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    httpOnly: true,
+  },
+};
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
@@ -21,7 +33,8 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-
+app.use(session(sessionOptions));
+app.use(flash());
 main()
   .then((res) => {
     console.log(`Connection established successfully with DB`);

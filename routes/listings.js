@@ -29,6 +29,13 @@ const validateListing = (req, res, next) => {
   }
 };
 
+router.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  res.locals.info = req.flash("info");
+  next();
+});
+
 router.get(
   "/",
   wrapAsync(async (req, res, next) => {
@@ -41,7 +48,11 @@ router.get(
   wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const item = await Listing.findById(id).populate("reviews");
-    res.render("listings/item.ejs", { item });
+    if (!item) {
+      req.flash("error", "Couldn't fetch the listing !!");
+      return res.redirect("/listings");
+    }
+    return res.render("listings/item.ejs", { item });
   })
 );
 router.get("/new", (req, res, next) => {
@@ -64,7 +75,8 @@ router.post(
       location,
       country,
     };
-    await Listing.insertOne(newItem);
+    const item = await Listing.insertOne(newItem);
+    if (item) req.flash("success", "New Listing created successfully");
     res.redirect("/listings");
   })
 );
@@ -73,6 +85,10 @@ router.get(
   wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const item = await Listing.findById(id);
+    if (!item) {
+      req.flash("error", "Couldn't fetch the listing !!");
+      return res.redirect("/listings");
+    }
     res.render("listings/edit.ejs", { item });
   })
 );
@@ -96,7 +112,8 @@ router.patch(
     const item = await Listing.findByIdAndUpdate(id, newItem, {
       new: true,
     });
-    res.render("listings/item.ejs", { item });
+    req.flash("success", "Listing updated successfully!");
+    res.redirect(`/listings/view/${item._id}`);
   })
 );
 router.delete(
@@ -104,6 +121,7 @@ router.delete(
   wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     await Listing.findByIdAndDelete(id);
+    req.flash("success", "Listing deleted successfully!");
     res.redirect("/listings");
   })
 );

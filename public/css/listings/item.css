@@ -9,7 +9,20 @@
   --shadow-dark: rgba(0, 0, 0, 0.15);
   --max-width: 800px;
   --header-height: 70px;
-} /* ---------- Global ---------- */
+  --success-bg: #ecfdf5;
+  --success-text: #065f46;
+  --success-border: #10b981;
+
+  --error-bg: #fef2f2;
+  --error-text: #7f1d1d;
+  --error-border: #ef4444;
+
+  --info-bg: #eff6ff;
+  --info-text: #1e3a8a;
+  --info-border: #3b82f6;
+}
+
+/* ---------- Global ---------- */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -73,7 +86,54 @@ body {
 .header .nav a:hover {
   background-color: #f0efef;
   border-radius: 2rem;
-} /* ---------- Page Content ---------- */
+}
+/* ----------Flash Message --------- */
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  margin: 12px 0;
+  border-radius: 8px;
+  font-weight: 500;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: opacity 0.4s ease, transform 0.3s ease;
+}
+
+/* Success message */
+.alert-success {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+  border-left: 4px solid var(--success-border);
+}
+
+/* Error message */
+.alert-danger {
+  background-color: var(--error-bg);
+  color: var(--error-text);
+  border-left: 4px solid var(--error-border);
+}
+
+/* Info message */
+.alert-info {
+  background-color: var(--info-bg);
+  color: var(--info-text);
+  border-left: 4px solid var(--info-border);
+}
+
+/* Subtle entry animation */
+.alert.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.alert.hide {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* ---------- Page Content ---------- */
 .page-content {
   display: flex;
   justify-content: center;
@@ -146,11 +206,12 @@ form.delete {
   display: inline-block; /* ensures form doesn't break flex layout */
   margin: 0;
 }
-.item-image {
+/* .item-image {
   max-height: 30rem;
   aspect-ratio: auto;
   width: auto;
-} /* Responsive tweaks */
+} */
+/* Responsive tweaks */
 @media (max-width: 768px) {
   .item-card {
     max-width: 95%;
@@ -384,6 +445,13 @@ form.delete {
   text-decoration: none;
   transition: transform 0.15s ease, box-shadow 0.2s ease,
     background-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent; /* removes blue flash on mobile */
+}
+
+.btn:focus,
+.btn:active {
+  outline: none;
+  box-shadow: none;
 }
 
 .btn-primary {
@@ -394,13 +462,17 @@ form.delete {
 }
 
 .btn-primary:hover {
-  background: var(--primary-hover, #e14a4e); /* slightly lighter shade */
+  background: var(--primary-hover, #e14a4e);
   transform: translateY(-1px);
   box-shadow: 0 6px 18px rgba(255, 90, 95, 0.35);
   border-color: var(--primary-hover, #e14a4e);
 }
 
 .btn-primary:active {
+  background: var(
+    --primary-hover,
+    #e14a4e
+  ); /* same red tone even when pressed */
   transform: translateY(0);
 }
 

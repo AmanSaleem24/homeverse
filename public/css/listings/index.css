@@ -10,6 +10,17 @@
   --shadow-light: rgba(0, 0, 0, 0.05);
   --shadow-dark: rgba(0, 0, 0, 0.15);
   --card-radius: 15px;
+  --success-bg: #ecfdf5;
+  --success-text: #065f46;
+  --success-border: #10b981;
+
+  --error-bg: #fef2f2;
+  --error-text: #7f1d1d;
+  --error-border: #ef4444;
+
+  --info-bg: #eff6ff;
+  --info-text: #1e3a8a;
+  --info-border: #3b82f6;
 }
 
 /* ---------- Global styles ---------- */
@@ -82,6 +93,52 @@ body {
   background-color: #f0efef;
   padding: 8px;
   border-radius: 2rem;
+}
+
+/* ----------Flash Message --------- */
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  margin: 12px 0;
+  border-radius: 8px;
+  font-weight: 500;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: opacity 0.4s ease, transform 0.3s ease;
+}
+
+/* Success message */
+.alert-success {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+  border-left: 4px solid var(--success-border);
+}
+
+/* Error message */
+.alert-danger {
+  background-color: var(--error-bg);
+  color: var(--error-text);
+  border-left: 4px solid var(--error-border);
+}
+
+/* Info message */
+.alert-info {
+  background-color: var(--info-bg);
+  color: var(--info-text);
+  border-left: 4px solid var(--info-border);
+}
+
+/* Subtle entry animation */
+.alert.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.alert.hide {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
 /* ---------- Content ---------- */

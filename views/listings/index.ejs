@@ -28,6 +28,15 @@
       </nav>
     </header>
 
+    <!-- flash Message -->
+    <% if (success && success.length) { %>
+    <div class="alert alert-success"><%= success[0] %></div>
+    <% } %> <% if (error && error.length) { %>
+    <div class="alert alert-danger"><%= error[0] %></div>
+    <% } %> <% if (info && info.length) { %>
+    <div class="alert alert-info"><%= info[0] %></div>
+    <% } %>
+
     <!-- ---------- Main Content ---------- -->
     <main class="content">
       <div class="container-box">
@@ -54,5 +63,13 @@
         <% }) %>
       </div>
     </main>
+    <script>
+      setTimeout(() => {
+        document.querySelectorAll(".alert").forEach((alert) => {
+          alert.classList.add("hide");
+          setTimeout(() => alert.remove(), 400); // remove after animation
+        });
+      }, 3000); // fades out after 3 seconds
+    </script>
   </body>
 </html>

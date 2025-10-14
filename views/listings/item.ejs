@@ -27,6 +27,15 @@
       </nav>
     </header>
 
+    <!-- flash Message -->
+    <% if (success && success.length) { %>
+    <div class="alert alert-success"><%= success[0] %></div>
+    <% } %> <% if (error && error.length) { %>
+    <div class="alert alert-danger"><%= error[0] %></div>
+    <% } %> <% if (info && info.length) { %>
+    <div class="alert alert-info"><%= info[0] %></div>
+    <% } %>
+
     <!-- Page content container -->
     <div class="page-content">
       <div class="item-card">
@@ -66,7 +75,7 @@
         <section class="reviews">
           <h2 class="reviews-title">Reviews</h2>
 
-          <!-- (Optional) existing reviews list -->
+          <!--  existing reviews list -->
           <ul class="reviews-list">
             <% if (item.reviews && item.reviews.length) { %> <%
             item.reviews.forEach(r => { %>
@@ -177,6 +186,15 @@
         </section>
       </div>
     </div>
+    <script>
+      setTimeout(() => {
+        document.querySelectorAll(".alert").forEach((alert) => {
+          alert.classList.add("hide");
+          setTimeout(() => alert.remove(), 400); // remove after animation
+        });
+      }, 3000); // fades out after 3 seconds
+    </script>
+
     <script>
       const deleteBtn = document.querySelector(".delete");
       deleteBtn.addEventListener("click", (e) => {
