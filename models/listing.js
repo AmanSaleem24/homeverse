@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import Review from "./reviews.js";
 main().catch((err) => {
   console.log(err);
 });
@@ -38,9 +39,21 @@ const listingSchema = new mongoose.Schema({
   },
   country: {
     type: String,
-    enum: ["India", "USA", "Australia", "Canada"],
     required: true,
   },
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
+});
+listingSchema.post("findOneAndDelete", async (data) => {
+  console.log("Post Middleware hit");
+  if (data.reviews.length) {
+    const result = await Review.deleteMany({ _id: { $in: data.reviews } });
+    if (result) console.log(result);
+  }
 });
 
 const Listing = mongoose.model("Listing", listingSchema);

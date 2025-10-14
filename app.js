@@ -8,8 +8,8 @@ import wrapAsync from "./utils/wrapAsync.js";
 import ExpressError from "./utils/ExpressError.js";
 import Joi from "joi";
 import listingSchema from "./schema.js";
-
 import Listing from "./models/listing.js";
+import Review from "./models/reviews.js";
 
 const PORT = 8080;
 const app = express();
@@ -71,7 +71,7 @@ app.get(
   "/listings/view/:id",
   wrapAsync(async (req, res, next) => {
     const { id } = req.params;
-    const item = await Listing.findById(id);
+    const item = await Listing.findById(id).populate("reviews");
     res.render("listings/item.ejs", { item });
   })
 );
@@ -139,6 +139,41 @@ app.delete(
     res.redirect("/listings");
   })
 );
+app.post(
+  "/listings/:id/reviews",
+  wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    const rating = Number(req.body.rating);
+    const content = req.body.content;
+    if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+      return res.status(400).send("Please pick stars 1–5.");
+    }
+    const newReview = new Review({
+      comment: content,
+      rating,
+      createdAt: Date.now(),
+    });
+    const review = await newReview.save();
+    const listing = await Listing.findByIdAndUpdate(
+      id,
+      { $push: { reviews: review._id } },
+      { new: true }
+    ).populate("reviews");
+    res.redirect(`/listings/view/${listing._id}`);
+  })
+);
+app.delete(
+  "/listings/:listingId/reviews/:reviewId",
+  wrapAsync(async (req, res) => {
+    const { listingId, reviewId } = req.params;
+
+    await Listing.findByIdAndUpdate(listingId, {
+      $pull: { reviews: reviewId },
+    });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/listings/view/${listingId}`);
+  })
+);
 
 app.all("/:path", (req, res, next) => {
   throw new ExpressError(404, "Page not found");
@@ -151,3 +186,4 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
+// 68e7d6f65118cc82052cfb8a
