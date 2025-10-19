@@ -40,6 +40,7 @@
         action="http://localhost:8080/listings/new"
         method="POST"
         novalidate
+        enctype="multipart/form-data"
       >
         <!-- Title -->
         <div class="field">
@@ -71,22 +72,18 @@
         <!-- Image fields in a row -->
         <div class="form-row">
           <div class="field">
-            <label for="filename">Image Filename</label>
-            <input
-              type="text"
-              name="filename"
-              id="filename"
-              placeholder="living-room.jpg"
-            />
-          </div>
-          <div class="field">
             <label for="url">Image URL</label>
             <input
-              type="url"
+              type="String"
               name="url"
               id="url"
               placeholder="https://example.com/living-room.jpg"
+              required
             />
+          </div>
+          <div class="field">
+            <label for="filename">Upload Listing Image: </label>
+            <input type="file" name="filename" id="filename" required />
           </div>
         </div>
 

@@ -1,3 +1,8 @@
+import dotenv from "dotenv";
+if (process.env.NODE_ENV != "production") {
+  dotenv.config();
+}
+
 import express from "express";
 import mongoose from "mongoose";
 import path from "path";
@@ -64,6 +69,11 @@ main()
 async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/airbnb");
 }
+// global request logger – add near the top
+app.use((req, res, next) => {
+  console.log(`[${req.method}] ${req.originalUrl}`);
+  next();
+});
 
 app.use("/listings", listingRoutes);
 app.use("/listings/:id/reviews", reviewRoutes);

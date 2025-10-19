@@ -40,6 +40,7 @@
         action="http://localhost:8080/listings/<%= item._id %>/edit?_method=PATCH"
         method="POST"
         novalidate
+        enctype="multipart/form-data"
       >
         <!-- Title -->
         <div class="field">
@@ -74,29 +75,14 @@
         <!-- Image Fields Row -->
         <div class="form-row">
           <div class="field">
-            <label for="filename">Image Filename</label>
-            <input
-              type="text"
-              name="filename"
-              id="filename"
-              value="<%= item.image.filename %>"
-              required
-            />
-            <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Image filename is required.</div>
+            <span>Uploaded Images: </span>
+            <img class="img" src="<%= imageUrl %>" alt="" />
           </div>
-
           <div class="field">
-            <label for="url">Image URL</label>
-            <input
-              type="text"
-              name="url"
-              id="url"
-              value="<%= item.image.url %>"
-              required
-            />
+            <label for="url">Upload New Image</label>
+            <input type="file" name="file" id="file" />
             <div class="valid-feedback">Looks good!</div>
-            <div class="invalid-feedback">Image URL is required.</div>
+            <div class="invalid-feedback">Image is required.</div>
           </div>
         </div>
 

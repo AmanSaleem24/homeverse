@@ -6,30 +6,19 @@ import passport from "passport";
 import { saveUrl } from "../middleware.js";
 import Listing from "../models/listing.js";
 import Review from "../models/reviews.js";
+import {
+  login,
+  logout,
+  renderLoginForm,
+  renderSignupForm,
+  signup,
+} from "../controllers/users.js";
 
 const router = express.Router();
 
-router.get("/signup", (req, res) => {
-  res.render("users/signup.ejs");
-});
-router.post("/signup", async (req, res) => {
-  try {
-    const { email, username, password } = req.body;
-    const newUser = new User({ email, username });
-    const user = await User.register(newUser, password);
-    req.login(user, (err) => {
-      if (err) return next(err);
-      req.flash("success", "Signed Up!!");
-      res.redirect("/listings");
-    });
-  } catch (e) {
-    req.flash("error", e.message);
-    res.redirect("/user/signup");
-  }
-});
-router.get("/login", (req, res) => {
-  res.render("users/login.ejs");
-});
+router.get("/signup", renderSignupForm);
+router.post("/signup", signup);
+router.get("/login", renderLoginForm);
 router.post(
   "/login",
   saveUrl,
@@ -37,18 +26,7 @@ router.post(
     failureRedirect: "/user/login",
     failureFlash: true,
   }),
-  async (req, res, next) => {
-    req.flash("success", "Welcome to HomeAway");
-    res.redirect(res.locals.redirectURL || "/listings");
-  }
+  login
 );
-router.get("/logout", (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      next(err);
-    }
-    req.flash("success", "Logged Out!");
-    res.redirect("/listings");
-  });
-});
+router.get("/logout", logout);
 export default router;

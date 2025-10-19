@@ -183,6 +183,37 @@ textarea:focus {
 .form-row .field {
   flex: 1;
 }
+.form-row .field .img {
+  width: 300px;
+}
+
+input[type="file"] {
+  padding: 0.4rem;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input[type="file"]:hover {
+  border-color: #007bff;
+  background-color: #eef6ff;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+  background-color: #0056b3;
+}
 
 /* Feedback (hidden by default; shown after .was-validated) */
 .valid-feedback,

@@ -1,5 +1,8 @@
 import Listing from "./models/listing.js";
 import Review from "./models/reviews.js";
+import ExpressError from "./utils/ExpressError.js";
+import listingSchema from "./schema.js";
+
 // auth.js
 const isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -11,11 +14,8 @@ const isLoggedIn = (req, res, next) => {
 };
 
 const saveUrl = (req, res, next) => {
-  console.log(req.session.redirectURL);
   if (req.session.redirectURL) {
-    console.log("hit");
     res.locals.redirectURL = req.session.redirectURL;
-    console.log("locals ", res.locals.redirectURL);
   }
   next();
 };
@@ -44,4 +44,27 @@ const isAuthor = async (req, res, next) => {
   next();
 };
 
-export { isLoggedIn, saveUrl, isOwner, isAuthor };
+const validateListing = (req, res, next) => {
+  const { title, description, filename, url, price, location, country } =
+    req.body;
+  const newItem = {
+    title,
+    description,
+    image: {
+      filename,
+      url,
+    },
+    price,
+    location,
+    country,
+  };
+  const { error } = listingSchema.validate(newItem);
+  if (error) {
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(500, errMsg);
+  } else {
+    next();
+  }
+};
+
+export { isLoggedIn, saveUrl, isOwner, isAuthor, validateListing };
