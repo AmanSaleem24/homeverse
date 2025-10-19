@@ -7,8 +7,12 @@ import ejsMate from "ejs-mate";
 import ExpressError from "./utils/ExpressError.js";
 import listingRoutes from "./routes/listings.js";
 import reviewRoutes from "./routes/reviews.js";
+import userRoutes from "./routes/users.js";
 import session from "express-session";
 import flash from "connect-flash";
+import passport from "passport";
+import LocalStrategy from "passport-local";
+import User from "./models/user.js";
 
 const PORT = 8080;
 const app = express();
@@ -33,8 +37,23 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+
 app.use(session(sessionOptions));
 app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  res.locals.info = req.flash("info");
+  res.locals.curUser = req.user;
+  next();
+});
 main()
   .then((res) => {
     console.log(`Connection established successfully with DB`);
@@ -48,14 +67,14 @@ async function main() {
 
 app.use("/listings", listingRoutes);
 app.use("/listings/:id/reviews", reviewRoutes);
+app.use("/user", userRoutes);
 
 app.all("/:path", (req, res, next) => {
   throw new ExpressError(404, "Page not found");
 });
 app.use((err, req, res, next) => {
   const { status = 500, message = "Something went wrong!" } = err;
-  console.log("Error fetching item:", err);
-  res.status(status).render("listings/error.ejs", { message });
+  res.status(status).render("listings/error.ejs", { message, user: req.user });
 });
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);

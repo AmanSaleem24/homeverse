@@ -2,11 +2,13 @@ import express from "express";
 import Review from "../models/reviews.js";
 import Listing from "../models/listing.js";
 import wrapAsync from "../utils/wrapAsync.js";
+import { isLoggedIn, isAuthor } from "../middleware.js";
 
 const router = express.Router({ mergeParams: true });
 
 router.post(
   "/",
+  isLoggedIn,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const rating = Number(req.body.rating);
@@ -18,6 +20,7 @@ router.post(
       comment: content,
       rating,
       createdAt: Date.now(),
+      author: req.user._id,
     });
     const review = await newReview.save();
     const listing = await Listing.findByIdAndUpdate(
@@ -35,6 +38,8 @@ router.post(
 );
 router.delete(
   "/:reviewId",
+  isLoggedIn,
+  isAuthor,
   wrapAsync(async (req, res) => {
     const { id, reviewId } = req.params;
 

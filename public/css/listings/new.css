@@ -26,55 +26,84 @@ body {
 
 /* ---------- Sticky Header ---------- */
 .header {
-  width: 100%;
-  height: var(--header-height);
+  width: 100vw;
+  height: var(--header-height, 70px);
   background-color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  padding: 0 clamp(1rem, 3vw, 2rem);
+  box-shadow: 0 2px 6px var(--shadow-light);
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
-.logo {
+/* Left cluster: logo + host button */
+.header__left {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1.8rem;
 }
 
+/* Right cluster: auth links */
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Logo */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
 .logo img {
   height: 40px;
   width: auto;
 }
-
-.logo a {
-  font-size: 1.5rem;
-  font-weight: bold;
+.logo-text {
+  font-size: 1.35rem;
+  font-weight: 800;
   color: var(--primary-color);
-  text-decoration: none;
+  letter-spacing: 0.2px;
   transition: color 0.2s ease;
 }
-
-.logo a:hover {
+.logo:hover .logo-text {
   color: #e04953;
 }
 
-.nav a {
-  font-size: 1rem;
-  text-decoration: none;
-  color: black;
+/* Become a host button — modern, no border */
+.btn-host,
+.nav-link {
+  font-family: "Airbnb Cereal", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.95rem;
   font-weight: 600;
-  padding: 8px 16px;
-  border-radius: 25px;
-  background-color: #f5f5f5;
-  transition: all 0.2s ease;
+  color: #222;
+  background: transparent;
+  border: none;
+  text-decoration: none; /* no underline initially */
+  cursor: pointer;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
-.nav a:hover {
-  background-color: #eaeaea;
+/* Hover: show underline + change to primary color */
+.btn-host:hover,
+.nav-link:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+  text-underline-offset: 3px; /* slight spacing from text */
+  text-decoration-thickness: 1.5px; /* subtle bold underline */
+}
+
+/* Accessibility focus */
+.btn-host:focus-visible,
+.nav-link:focus-visible {
+  outline: 2px solid rgba(255, 90, 95, 0.35);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* ---------- Form Container ---------- */

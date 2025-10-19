@@ -16,14 +16,23 @@
   <body>
     <!-- Header stays full width -->
     <header class="header">
-      <div class="logo">
-        <img src="/images/logo.png" alt="homeAway logo" />
-        <a href="http://localhost:8080/listings">homeAway</a>
+      <!-- Left: Logo + Become a host -->
+      <div class="header__left">
+        <a class="logo" href="/listings">
+          <img src="/images/logo.png" alt="homeAway logo" />
+          <span class="logo-text">homeAway</span>
+        </a>
+
+        <a href="/listings/new" class="btn-host">Become a host</a>
       </div>
 
-      <nav class="nav">
-        <a href="http://localhost:8080/listings/new">Become a host</a>
-        <!-- Future links -->
+      <!-- Right: Auth links (use your own URLs later) -->
+      <nav class="header__right">
+        <% if (user) { %>
+        <a href="/user/logout" class="nav-link">Log out</a>
+        <% } else { %>
+        <a href="/user/login" class="nav-link">Log in</a>
+        <% } %>
       </nav>
     </header>
 
@@ -42,6 +51,7 @@
         <!-- Item card content -->
         <div class="item-header">
           <h1 class="item-title"><%= item.title %></h1>
+          <% if(curUser && curUser._id.equals(item.owner._id)) {%>
           <div class="item-actions">
             <a
               class="edit-btn"
@@ -56,6 +66,7 @@
               <button class="delete-btn">Delete</button>
             </form>
           </div>
+          <% } %>
         </div>
 
         <img
@@ -63,6 +74,9 @@
           src="<%= item.image.url %>"
           alt="<%= item.title %> image"
         />
+        <span class="item-owner"
+          ><i><b>Owner: <%= item.owner.username %></b></i></span
+        >
         <span class="item-price"
           >&#8377; <%= item.price.toLocaleString("en-IN") %></span
         >
@@ -73,6 +87,7 @@
         <hr class="divider" />
 
         <section class="reviews">
+          <% if(item.reviews.length > 0){ %>
           <h2 class="reviews-title">Reviews</h2>
 
           <!--  existing reviews list -->
@@ -84,7 +99,7 @@
               <div class="review-header">
                 <div class="review-meta">
                   <span class="review-author"
-                    ><%= r.author?.username || "Anonymous" %></span
+                    ><%= r.author.username || "Anonymous" %></span
                   >
                   <span class="review-date"
                     ><%= new Date(r.createdAt).toLocaleDateString("en-IN")
@@ -97,6 +112,7 @@
                   </span>
                 </div>
 
+                <%if(curUser && r.author._id.equals(curUser._id)){%>
                 <form
                   action="/listings/<%= item._id %>/reviews/<%= r._id %>?_method=DELETE"
                   method="POST"
@@ -105,6 +121,7 @@
                 >
                   <button class="delete-btn" type="submit">Delete</button>
                 </form>
+                <%}%>
               </div>
 
               <p class="review-text"><%= r.comment %></p>
@@ -113,13 +130,15 @@
             <p class="no-reviews">Be the first to review this listing.</p>
             <% } %>
           </ul>
-
+          <% } %>
           <!-- Review form -->
+          <% if(curUser) { %>
           <form
             class="review-form"
             action="http://localhost:8080/listings/<%= item._id %>/reviews"
             method="POST"
           >
+            <h4>Leave a review</h4>
             <div class="rating-group" role="radiogroup" aria-label="Rating">
               <!-- note: reverse order for CSS hover fill -->
               <input
@@ -170,7 +189,7 @@
             </div>
 
             <div class="review-field">
-              <label class="review-label" for="content">Your review</label>
+              <label class="review-label" for="content"></label>
               <textarea
                 name="content"
                 id="content"
@@ -183,6 +202,7 @@
 
             <button class="btn btn-primary" type="submit">Submit Review</button>
           </form>
+          <% } %>
         </section>
       </div>
     </div>
