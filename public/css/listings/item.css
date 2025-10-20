@@ -7,7 +7,7 @@
   --card-radius: 15px;
   --shadow-light: rgba(0, 0, 0, 0.05);
   --shadow-dark: rgba(0, 0, 0, 0.15);
-  --max-width: 800px;
+  --max-width: 1150px;
   --header-height: 70px;
 
   --success-bg: #ecfdf5;
@@ -39,7 +39,7 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 } /* ---------- Header ---------- */
 .header {
-  width: 100vw;
+  width: 100%;
   height: var(--header-height, 70px);
   background-color: #fff;
   display: flex;
@@ -176,14 +176,12 @@ body {
   justify-content: center;
   padding: 2rem;
 }
-/* Item Card stays the same */
 .item-card {
   background-color: var(--card-bg);
   border-radius: var(--card-radius);
   overflow: hidden;
   box-shadow: 0 4px 15px var(--shadow-light);
-  max-width: var(--max-width);
-  width: 100%;
+  width: min(97vw, var(--max-width));
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -200,6 +198,12 @@ body {
   align-items: center;
   justify-content: space-between;
 }
+.item-image {
+  height: min(48vh, 480px);
+  object-fit: cover;
+  border-radius: 12px;
+}
+
 /* Container for Edit + Delete buttons */
 .item-actions {
   display: flex;
@@ -248,32 +252,7 @@ form.delete {
   display: inline-block;
   margin: 0;
 }
-@media (max-width: 768px) {
-  .item-card {
-    max-width: 95%;
-  }
-  .item-image {
-    height: 300px;
-  }
-}
-@media (max-width: 480px) {
-  .item-card {
-    max-width: 95%;
-  }
-  .item-image {
-    height: 200px;
-  }
-  .header {
-    flex-direction: column;
-    gap: 0.5rem;
-    height: auto;
-    padding: 1rem;
-  }
-  .header .nav {
-    justify-content: center;
-    width: 100%;
-  }
-}
+
 /* ---- Divider ---- */
 .divider {
   border: none;
@@ -507,9 +486,41 @@ form.delete {
   background: var(--primary-hover, #e14a4e);
   transform: translateY(0);
 }
+#map {
+  height: 400px;
+  width: 100%;
+}
 
 /* ---- Responsive tweaks ---- */
+
+@media (max-width: 768px) {
+  .item-card {
+    max-width: 95%;
+  }
+  .item-image {
+    height: 300px;
+  }
+  .item-image {
+    height: 320px;
+  }
+}
 @media (max-width: 480px) {
+  .item-card {
+    max-width: 95%;
+  }
+  .item-image {
+    height: 200px;
+  }
+  .header {
+    flex-direction: column;
+    gap: 0.5rem;
+    height: auto;
+    padding: 1rem;
+  }
+  .header .nav {
+    justify-content: center;
+    width: 100%;
+  }
   .review {
     padding: 0.8rem;
   }
@@ -523,5 +534,8 @@ form.delete {
   .delete-review-form {
     margin-left: 0;
     margin-top: 0.5rem;
+  }
+  .item-image {
+    height: 240px;
   }
 }

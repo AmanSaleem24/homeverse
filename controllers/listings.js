@@ -1,4 +1,7 @@
 import Listing from "../models/listing.js";
+import mbxGeocoding from "@mapbox/mapbox-sdk/services/geocoding.js";
+const mapToken = process.env.MAP_ACCESS_TOKEN;
+const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 const index = async (req, res, next) => {
   const data = await Listing.find({});
@@ -37,12 +40,21 @@ const createListing = async (req, res) => {
     location,
     country,
   };
+  const address = `${location}, ${country}`;
+  console.log("address....", address);
+  const response = await geocodingClient
+    .forwardGeocode({
+      query: `${address}`,
+      limit: 1,
+    })
+    .send();
   newItem.owner = req.user._id;
-  console.log(newItem);
+  newItem.geometry = response.body.features[0].geometry;
   const item = await Listing.insertOne(newItem);
   if (item) req.flash("success", "New Listing created successfully");
   res.redirect("/listings");
 };
+
 const renderEditListingForm = async (req, res, next) => {
   const { id } = req.params;
   const listing = await Listing.findById(id).select("owner");
@@ -64,19 +76,19 @@ const renderEditListingForm = async (req, res, next) => {
 const editListing = async (req, res, next) => {
   const { id } = req.params;
   const { title, description, price, location, country } = req.body;
-  const url = req.file.path;
-  const filename = req.file.filename;
   const newItem = {
     title,
     description,
-    image: {
-      filename,
-      url,
-    },
     price,
     location,
     country,
   };
+  if (req.file) {
+    newItem.image = {
+      filename: req.file.path,
+      url: req.file.filename,
+    };
+  }
   const item = await Listing.findByIdAndUpdate(id, newItem, {
     new: true,
   });
