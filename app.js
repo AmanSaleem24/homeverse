@@ -80,7 +80,9 @@ app.use((req, res, next) => {
   console.log(`[${req.method}] ${req.originalUrl}`);
   next();
 });
-
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
 app.use("/listings", listingRoutes);
 app.use("/listings/:id/reviews", reviewRoutes);
 app.use("/user", userRoutes);
