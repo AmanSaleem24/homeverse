@@ -1,3 +1,4 @@
+import User from "../models/user.js";
 const renderSignupForm = (req, res) => {
   res.render("users/signup.ejs");
 };

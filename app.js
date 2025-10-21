@@ -2,9 +2,9 @@ import dotenv from "dotenv";
 if (process.env.NODE_ENV != "production") {
   dotenv.config();
 }
-
 import express from "express";
 import mongoose from "mongoose";
+import { connectDB } from "./db.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import methodOverride from "method-override";
@@ -14,6 +14,7 @@ import listingRoutes from "./routes/listings.js";
 import reviewRoutes from "./routes/reviews.js";
 import userRoutes from "./routes/users.js";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 import flash from "connect-flash";
 import passport from "passport";
 import LocalStrategy from "passport-local";
@@ -21,10 +22,24 @@ import User from "./models/user.js";
 
 const PORT = 8080;
 const app = express();
+await connectDB();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const store = new MongoStore({
+  mongoUrl: process.env.MONGO_CONNECTION_URL,
+  crypto: {
+    secret: process.env.SESSION_SECRET_KEY,
+  },
+  touchAfter: 14 * 24 * 60 * 60,
+});
+store.on("error", () => {
+  console.log("error in connecting to db", err);
+});
+
 const sessionOptions = {
-  secret: "kdsb03812@#)kjfh,!doyf)@8asjhfa,bc",
+  store,
+  secret: process.env.SESSION_SECRET_KEY,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -59,16 +74,7 @@ app.use((req, res, next) => {
   res.locals.curUser = req.user;
   next();
 });
-main()
-  .then((res) => {
-    console.log(`Connection established successfully with DB`);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/airbnb");
-}
+
 // global request logger – add near the top
 app.use((req, res, next) => {
   console.log(`[${req.method}] ${req.originalUrl}`);

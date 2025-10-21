@@ -20,6 +20,10 @@
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    />
   </head>
   <body>
     <!-- ---------- Header ---------- -->
@@ -30,16 +34,16 @@
           <img src="/images/logo.png" alt="homeAway logo" />
           <span class="logo-text">homeAway</span>
         </a>
-
-        <a href="/listings/new" class="btn-host">Become a host</a>
       </div>
 
       <!-- Right: Auth links (use your own URLs later) -->
       <nav class="header__right">
+        <a href="/listings/new" class="btn-host">Airbnb your home</a>
         <% if (user) { %>
         <a href="/user/logout" class="nav-link">Log out</a>
         <% } else { %>
-        <a href="/user/login" class="nav-link">Log in</a>
+        <a href="/user/signup" class="nav-link"><b>Sign Up</b></a>
+        <a href="/user/login" class="nav-link"><b>Log in</b></a>
         <% } %>
       </nav>
     </header>
@@ -52,6 +56,35 @@
     <% } %> <% if (info && info.length) { %>
     <div class="alert alert-info"><%= info[0] %></div>
     <% } %>
+
+  <div class="filters-bar">
+  <div class="filters">
+    <div class="filter"><i class="fa-solid fa-fire"></i><p>Trending</p></div>
+    <div class="filter"><i class="fa-solid fa-bed"></i><p>Rooms</p></div>
+    <div class="filter"><i class="fa-solid fa-water-ladder"></i><p>Pools</p></div>
+    <div class="filter"><i class="fa-solid fa-tractor"></i><p>Farms</p></div>
+    <div class="filter"><i class="fa-solid fa-city"></i><p>Cities</p></div>
+    <div class="filter"><i class="fa-solid fa-mountain-sun"></i><p>Mountains</p></div>
+    <div class="filter"><i class="fa-solid fa-umbrella-beach"></i><p>Beach</p></div>
+    <div class="filter"><i class="fa-solid fa-snowflake"></i><p>Arctic</p></div>
+    <div class="filter"><i class="fa-solid fa-paw"></i><p>Wildlife</p></div>
+    <div class="filter"><i class="fa-solid fa-sun"></i><p>Desert</p></div>
+  </div>
+
+  <div class="filter-controls">
+    <button class="filter-btn"><i class="fa-solid fa-sliders"></i> Filters</button>
+
+    <div class="tax-toggle">
+      <label>Display total before taxes</label>
+      <div class="switch" id="toggleSwitch">
+        <div class="slider"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    </div>
 
     <!-- ---------- Main Content ---------- -->
     <main class="content">
@@ -72,13 +105,27 @@
               ><%= item.title %> in <%= item.location %></a
             >
             <span class="item-price"
-              >&#8377; <%= item.price.toLocaleString() %> / night</span
+              >&#8377; <%= item.price.toLocaleString() %> / night&nbsp;<i class="tax">&nbsp;18% GST</i></span
             >
           </div>
         </div>
         <% }) %>
       </div>
     </main>
+    <script>
+  const toggle = document.getElementById('toggleSwitch');
+  toggle.addEventListener('click', () => {
+    toggle.classList.toggle('on')
+    let taxInfo = document.getElementsByClassName("tax");
+    for(info of taxInfo){
+      if(info.style.display != 'inline'){
+        info.style.display = 'inline'
+      }else{
+        info.style.display = 'none'
+      }
+    }
+  });
+</script>
     <script>
       setTimeout(() => {
         document.querySelectorAll(".alert").forEach((alert) => {

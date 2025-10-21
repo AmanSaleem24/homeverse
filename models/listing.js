@@ -1,11 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 import Review from "./reviews.js";
-main().catch((err) => {
-  console.log(err);
-});
-async function main() {
-  await mongoose.connect("mongodb://127.0.0.1:27017/airbnb");
-}
 
 const listingSchema = new mongoose.Schema({
   title: {
