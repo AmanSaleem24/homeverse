@@ -91,7 +91,7 @@
       <div class="container-box">
         <% data.forEach(item => { %>
         <div class="item-card">
-          <a href="http://localhost:8080/listings/view/<%= item._id %>">
+          <a href="/listings/view/<%= item._id %>">
             <img
               class="item-image"
               src="<%= item.image.url %>"
@@ -101,7 +101,7 @@
           <div class="item-details">
             <a
               class="item-title"
-              href="http://localhost:8080/listings/view/<%= item._id %>"
+              href="/listings/view/<%= item._id %>"
               ><%= item.title %> in <%= item.location %></a
             >
             <span class="item-price"

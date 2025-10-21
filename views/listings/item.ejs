@@ -64,14 +64,10 @@
           <h1 class="item-title"><%= item.title %></h1>
           <% if(curUser && curUser._id.equals(item.owner._id)) {%>
           <div class="item-actions">
-            <a
-              class="edit-btn"
-              href="http://localhost:8080/listings/<%= item._id %>/edit"
-              >Edit</a
-            >
+            <a class="edit-btn" href="/listings/<%= item._id %>/edit">Edit</a>
             <form
               class="delete"
-              action="http://localhost:8080/listings/<%= item._id %>/delete?_method=DELETE"
+              action="/listings/<%= item._id %>/delete?_method=DELETE"
               method="POST"
             >
               <button class="delete-btn">Delete</button>
@@ -144,7 +140,7 @@
           <% if(curUser) { %>
           <form
             class="review-form"
-            action="http://localhost:8080/listings/<%= item._id %>/reviews"
+            action="/listings/<%= item._id %>/reviews"
             method="POST"
           >
             <h4>Leave a review</h4>
